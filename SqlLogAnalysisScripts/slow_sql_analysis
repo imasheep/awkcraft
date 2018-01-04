@@ -1,0 +1,35 @@
+#!/bin/bash
+
+
+awk -F[][] '
+	BEGIN{
+		print "avg_resp_time] [max_sql_resptime] [sql_count] [sql]"
+	}
+	+$6>500||+$4>500{
+		if($4~/[0-9]+\.[0-9]+/)time_flag=4
+		if($6~/[0-9]+\.[0-9]+/)time_flag=6
+		sql=$8
+        if(length(sql)>60){
+            next
+        }
+		gsub("[0-9]+","NUM",sql)
+        gsub("(in|IN) *\\((\047?NUM\047?,? ?)+","in (NUMS",sql)
+        gsub("(values|VALUES) +\\([^)]+","values (VALUES",sql)
+        gsub("(like|LIKE|=) *\047[^\047]+","= \047STRING_OR_NUM",sql)
+        gsub("(like|LIKE|=) *\"[^\"]+","= \"STRING_OR_NUM",sql)
+		gsub("%","%25",sql)
+		gsub(";","",sql)
+		
+
+		total_sql_cnt_arr[sql]++
+		total_resptime_arr[sql]+=$time_flag
+		max_sql_resptime_arr[sql]=max_sql_resptime_arr[sql]>$time_flag?max_sql_resptime_arr[sql]:$time_flag
+	}
+	END{
+		for(sql in total_sql_cnt_arr){
+			avg_resp_time=sprintf("%.2f",total_resptime_arr[sql]/total_sql_cnt_arr[sql])
+			print avg_resp_time"] ["max_sql_resptime_arr[sql]"] ["total_sql_cnt_arr[sql]"] ["sql"]"|"sort -rnk1 "
+		}
+		close("sort -rnk1")
+	}
+' $@

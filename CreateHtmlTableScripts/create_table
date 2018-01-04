@@ -1,0 +1,22 @@
+    awk -F[][] '
+        BEGIN{
+            print "<html><body><table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">"
+        }
+        NR==1{
+            print "<caption style=\"text-align:left\" >"$0"</caption>"
+            next
+        }
+        {
+            b_str=NR==2?"<th>":"<td>"
+            e_str=NR==2?"</th>":"</td>"
+
+            printf "<tr>"
+            for(i=1;i<=NF;i+=2){
+                printf("%s %s %s",b_str,$i,e_str)
+            }
+            print "</tr>"
+        }
+        END{
+            print "</table></body></html>"
+        }
+    '
