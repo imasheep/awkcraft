@@ -1,0 +1,1 @@
+awk 'BEGIN{O="~"~"~";o="=="=="==";o+=+o;x=O""O;while(X++<=x+o+O+o*(O+o))c=c"%c";printf c,(X+o)*(o+O),x*(x-o)-o,x*x-o^(o+O)-O,x*x-o^(o+O)-O,X/o*x,x*(o+O)-O,(x-o)*x-O,X*(o^o+O)-(o*o+O),x*x-o^(o+O)+O,(O+o*o)*X+o^(o+O)-o,(X/o-O)*(x-O)+o*O*o,(x-O)^o,(X/o-o)*x-o,x*X/o,(o+O)*x-O,(O+o*o)*X+o^(o+O)-o,(X/o-O)*(x+O)-(x-o),X+x-O,(X/o-O)*x-O,(x-O)^o+O,(X-x-O)}'
